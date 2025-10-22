@@ -23,10 +23,8 @@ function NewToDo({ addTodo }: { addTodo: (todo: TODO) => void }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="newTask">Add ToDo</label>
+        <form className="new-todo" onSubmit={handleSubmit}>
             <input
-                id="newTask"
                 type="text"
                 placeholder="Drink Water"
                 onChange={(evt) => setTask(evt.target.value)}

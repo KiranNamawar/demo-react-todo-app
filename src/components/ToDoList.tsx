@@ -8,6 +8,15 @@ interface Props {
 }
 
 function ToDoList({ todos, ...props }: Props) {
+    if (todos.length === 0) {
+        return (
+            <div className="empty-todo-list">
+                <p>No todos yet! 📝</p>
+                <p>Start by adding your first task above.</p>
+            </div>
+        );
+    }
+
     return (
         <ul className="todo-list">
             {todos.map((todo) => (

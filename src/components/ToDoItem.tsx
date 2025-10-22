@@ -37,7 +37,7 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
     }
 
     return (
-        <li className={`todo ${todo.done ? "todo-done" : ""}`}>
+        <li className={`todo-item ${todo.done ? "todo-done" : ""}`}>
             <div className="todo-header">
                 <p>{`${timePrefix} ${calculateTime(
                     todo.updatedAt ?? todo.createdAt
@@ -46,6 +46,7 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
                     {editMode ? (
                         <>
                             <button
+                                title="Cancel edit"
                                 onClick={() => {
                                     setEditMode(false);
                                     setTask(todo.task);
@@ -53,20 +54,28 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
                             >
                                 <X />
                             </button>
-                            <button onClick={handleEdit}>
+                            <button
+                                title="Save changes"
+                                onClick={handleEdit}
+                                disabled={task === todo.task}
+                            >
                                 <Check />
                             </button>
                         </>
                     ) : (
                         <>
                             <button
+                                title="Edit todo"
                                 onClick={() => {
                                     setEditMode(true);
                                 }}
                             >
                                 <Pen />
                             </button>
-                            <button onClick={() => deleteToDo(todo.id)}>
+                            <button
+                                title="Delete todo"
+                                onClick={() => deleteToDo(todo.id)}
+                            >
                                 <Trash />
                             </button>
                         </>
@@ -75,6 +84,9 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
             </div>
             <div className="todo-body">
                 <button
+                    title={
+                        todo.done ? "Mark as incomplete" : "Mark as complete"
+                    }
                     onClick={() =>
                         updateToDo({
                             ...todo,

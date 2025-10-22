@@ -17,6 +17,9 @@ button {
 input:focus {
     outline: none;
 }
+button {
+    cursor: pointer;
+}
 
 ul {
     list-style: none;
@@ -27,7 +30,7 @@ ul {
     color-scheme: light dark;
 }
 
-/* App Layout */
+/* Layout */
 #app {
     display: flex;
     flex-direction: column;
@@ -35,5 +38,100 @@ ul {
     padding: 1rem;
     & main {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+}
+
+.new-todo {
+    display: flex;
+    width: 50%;
+    font-size: 1.5rem;
+    border: solid gray;
+    border-radius: 10px;
+    & input {
+        flex-grow: 1;
+    }
+    & * {
+        padding: 0.5rem;
+    }
+}
+
+.todo-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    width: 100%;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.todo-item {
+    border: solid;
+    border-radius: 10px;
+    padding: 0.5rem;
+
+    & .todo-header {
+        display: flex;
+        & p {
+            flex-grow: 1;
+            opacity: 0.7;
+        }
+
+        & .todo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+    }
+
+    & .todo-body {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        font-size: 1.5rem;
+
+        & button {
+            display: flex;
+            align-items: center;
+        }
+
+        & input,
+        & p {
+            flex-grow: 1;
+            padding: 0.25rem;
+        }
+
+        & p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+.empty-todo-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 3rem 2rem;
+    margin-top: 2rem;
+    border: 2px dashed;
+    border-radius: 10px;
+    opacity: 0.6;
+    text-align: center;
+
+    & p:first-child {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    & p:last-child {
+        font-size: 1rem;
+        opacity: 0.8;
+    }
+}
+
+.todo-done {
+    opacity: 0.7;
 }
