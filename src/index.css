@@ -28,6 +28,29 @@ ul {
 /* Theme */
 :root {
     color-scheme: light dark;
+
+    --text-color: light-dark(black, white);
+    --background-color: light-dark(#fefefe, #303030);
+    --surface-color: light-dark(rgb(224, 172, 172), rgb(85, 52, 52));
+    --accent-color: light-dark(#e19f3c, #936012);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: "Quicksand", sans-serif;
+}
+
+button {
+    color: light-dark( rgb(78, 123, 41),rgb(70, 174, 99));
+    &:hover {
+        color: var(--text-color);
+    }
+    &:disabled {
+        color: gray;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 
 /* Layout */
@@ -36,11 +59,35 @@ ul {
     flex-direction: column;
     min-height: 100vh;
     padding: 1rem;
+    & header {
+        display: flex;
+        justify-content: center;
+        gap: .5rem;
+        margin-block: 1rem;
+    }
+ 
     & main {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding-inline: 2rem;
+
+        @media(width < 500px) {
+            padding-inline: 0;
+        }
+    }
+
+    & footer a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        font-size: larger;
+        text-decoration: none;
+        &:hover {
+            color: var(--text-color);
+        }
     }
 }
 
@@ -48,14 +95,35 @@ ul {
     display: flex;
     width: 50%;
     font-size: 1.5rem;
-    border: solid gray;
+    background-color: var(--surface-color);
     border-radius: 10px;
+    overflow: hidden;
     & input {
         flex-grow: 1;
+        min-width: 0;
+        padding-left: 1rem;
     }
+
+    & button {
+        color: var(--text-color);
+        background-color: var(--accent-color);
+    }
+
     & * {
         padding: 0.5rem;
     }
+
+    @media (width < 500px) {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.todo-stat {
+    margin: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .todo-list {
@@ -67,10 +135,10 @@ ul {
 }
 
 .todo-item {
-    border: solid;
+    background-color: var(--surface-color);
     border-radius: 10px;
     padding: 0.5rem;
-
+    box-shadow: 1px 1px 4px hsl(from var(--text-color) h s l / 0.2);
     & .todo-header {
         display: flex;
         & p {
@@ -81,6 +149,7 @@ ul {
         & .todo-actions {
             display: flex;
             gap: 0.5rem;
+            font-size: small;
         }
     }
 
@@ -133,5 +202,5 @@ ul {
 }
 
 .todo-done {
-    opacity: 0.7;
+    opacity: 0.5;
 }
