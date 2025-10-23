@@ -20,6 +20,8 @@ function NewToDo({ addTodo }: { addTodo: (todo: TODO) => void }) {
         // Clear input value
         const form = evt.target as HTMLFormElement;
         form.reset();
+        
+        setTask("");
     }
 
     return (
