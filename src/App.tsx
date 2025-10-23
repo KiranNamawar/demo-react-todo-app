@@ -7,6 +7,7 @@ import type { TODO } from "./types/todo";
 
 function App() {
     const [todos, setTodos] = useState<TODO[]>([]);
+    const [hideCompleted, setHideCompleted] = useState(false);
 
     function addTodo(todo: TODO) {
         setTodos([todo, ...todos]);
@@ -20,13 +21,27 @@ function App() {
         setTodos((prev) => prev.filter((t) => t.id !== id));
     }
 
+    const filtered = todos.filter((t) => !t.done);
+
     return (
         <div id="app">
             <Header />
             <main>
                 <NewToDo addTodo={addTodo} />
+                {todos.length > 0 && (
+                    <div className="todo-stat">
+                        <p>
+                            {filtered.length} of {todos.length} Remaining
+                        </p>
+                        <button
+                            onClick={() => setHideCompleted(!hideCompleted)}
+                        >
+                            {hideCompleted ? "Show" : "Hide"} Completed
+                        </button>
+                    </div>
+                )}
                 <ToDoList
-                    todos={todos}
+                    todos={hideCompleted ? filtered : todos}
                     updateToDo={updateToDo}
                     deleteToDo={deleteToDo}
                 />

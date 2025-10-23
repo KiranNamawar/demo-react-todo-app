@@ -1,7 +1,8 @@
 function Header() {
     return (
         <header>
-            <h1>Header</h1>
+            <img src="/logo.svg" alt="logo" width="30px" />
+            <h1>ToDo List</h1>
         </header>
     );
 }
