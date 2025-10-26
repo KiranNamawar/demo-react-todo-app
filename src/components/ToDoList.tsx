@@ -1,13 +1,10 @@
 import ToDoItem from "./ToDoItem";
-import type { TODO, TODOActions } from "../types/todo";
-import type { Dispatch } from "react";
+import type { TODO } from "../types/todo";
 
-interface Props {
+
+function ToDoList({ todos }: {
     todos: TODO[];
-    dispatchTODO: Dispatch<TODOActions>
-}
-
-function ToDoList({ todos, ...props }: Props) {
+}) {
     if (todos.length === 0) {
         return (
             <div className="empty-todo-list">
@@ -20,7 +17,7 @@ function ToDoList({ todos, ...props }: Props) {
     return (
         <ul className="todo-list">
             {todos.map((todo) => (
-                <ToDoItem key={todo.id} todo={todo} {...props} />
+                <ToDoItem key={todo.id} todo={todo} />
             ))}
         </ul>
     );

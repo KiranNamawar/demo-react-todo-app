@@ -1,9 +1,9 @@
-import { useState, type Dispatch, type FormEvent } from "react";
-import type { TODOActions } from "../types/todo";
+import { useState, type FormEvent } from "react";
+import { useToDos } from "../ToDoContext";
 
-function NewToDo({ dispatchTODO }: { dispatchTODO: Dispatch<TODOActions> }) {
+function NewToDo() {
     const [task, setTask] = useState("");
-
+    const [_, dispatch] = useToDos()
     function handleSubmit(evt: FormEvent<HTMLFormElement>) {
         evt.preventDefault();
         if (task.trim() === "") return;
@@ -17,7 +17,7 @@ function NewToDo({ dispatchTODO }: { dispatchTODO: Dispatch<TODOActions> }) {
             updated: false,
         };
         
-        dispatchTODO({ type: "add", todo });
+        dispatch({ type: "add", todo });
 
         // Clear input value
         const form = evt.target as HTMLFormElement;
