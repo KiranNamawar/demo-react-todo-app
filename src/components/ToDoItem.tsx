@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import type { TODO } from "../types/todo";
+import { useEffect, useRef, useState, type Dispatch } from "react";
+import type { TODO, TODOActions } from "../types/todo";
 import { Check, Circle, CircleCheck, Pen, Trash, X } from "lucide-react";
 
 interface Props {
     todo: TODO;
-    updateToDo: (todo: TODO) => void;
-    deleteToDo: (id: string) => void;
+    dispatchTODO: Dispatch<TODOActions>;
 }
 
-function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
+function ToDoItem({ todo, dispatchTODO }: Props) {
     const [editMode, setEditMode] = useState(false);
     const [task, setTask] = useState(todo.task);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -28,11 +27,14 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
     function handleEdit() {
         if (task.trim() === "") return;
         setEditMode(false);
-        updateToDo({
-            ...todo,
-            task,
-            updated: true,
-            updatedAt: Date.now(),
+        dispatchTODO({
+            type: "update",
+            todo: {
+                ...todo,
+                task,
+                updated: true,
+                updatedAt: Date.now(),
+            },
         });
     }
 
@@ -74,7 +76,12 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
                             </button>
                             <button
                                 title="Delete todo"
-                                onClick={() => deleteToDo(todo.id)}
+                                onClick={() =>
+                                    dispatchTODO({
+                                        type: "delete",
+                                        id: todo.id,
+                                    })
+                                }
                             >
                                 <Trash />
                             </button>
@@ -87,13 +94,17 @@ function ToDoItem({ todo, updateToDo, deleteToDo }: Props) {
                     title={
                         todo.done ? "Mark as incomplete" : "Mark as complete"
                     }
-                    onClick={() =>
-                        updateToDo({
-                            ...todo,
-                            done: !todo.done,
-                            updated: true,
-                            updatedAt: Date.now(),
-                        })
+                    onClick={
+                        () =>
+                            dispatchTODO({
+                                type: "update",
+                                todo: {
+                                    ...todo,
+                                    done: !todo.done,
+                                    updated: true,
+                                    updatedAt: Date.now(),
+                                },
+                            })
                     }
                 >
                     {todo.done ? <CircleCheck /> : <Circle />}

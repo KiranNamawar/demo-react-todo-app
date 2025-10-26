@@ -1,10 +1,10 @@
 import ToDoItem from "./ToDoItem";
-import type { TODO } from "../types/todo";
+import type { TODO, TODOActions } from "../types/todo";
+import type { Dispatch } from "react";
 
 interface Props {
     todos: TODO[];
-    updateToDo: (todo: TODO) => void;
-    deleteToDo: (id: string) => void;
+    dispatchTODO: Dispatch<TODOActions>
 }
 
 function ToDoList({ todos, ...props }: Props) {

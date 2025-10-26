@@ -1,25 +1,13 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ToDoList from "./components/ToDoList";
 import NewToDo from "./components/NewToDo";
-import type { TODO } from "./types/todo";
+import type { TODO, TODOActions } from "./types/todo";
 
 function App() {
-    const [todos, setTodos] = useState<TODO[]>([]);
+    const [todos, dispatchTODO] = useReducer(todoReducer, []);
     const [hideCompleted, setHideCompleted] = useState(false);
-
-    function addTodo(todo: TODO) {
-        setTodos([todo, ...todos]);
-    }
-
-    function updateToDo(todo: TODO) {
-        setTodos((prev) => prev.map((t) => (t.id === todo.id ? todo : t)));
-    }
-
-    function deleteToDo(id: string) {
-        setTodos((prev) => prev.filter((t) => t.id !== id));
-    }
 
     const filtered = todos.filter((t) => !t.done);
 
@@ -27,7 +15,7 @@ function App() {
         <div id="app">
             <Header />
             <main>
-                <NewToDo addTodo={addTodo} />
+                <NewToDo dispatchTODO={dispatchTODO} />
                 {todos.length > 0 && (
                     <div className="todo-stat">
                         <p>
@@ -42,8 +30,7 @@ function App() {
                 )}
                 <ToDoList
                     todos={hideCompleted ? filtered : todos}
-                    updateToDo={updateToDo}
-                    deleteToDo={deleteToDo}
+                    dispatchTODO={dispatchTODO}
                 />
             </main>
             <Footer />
@@ -52,3 +39,23 @@ function App() {
 }
 
 export default App;
+
+function todoReducer(todos: TODO[], action: TODOActions) {
+    switch (action.type) {
+        case "add": {
+            return [...todos, action.todo];
+        }
+        case "update": {
+            return todos.map((t) =>
+                t.id === action.todo.id ? action.todo : t
+            );
+        }
+        case "delete": {
+            return todos.filter((t) => t.id !== action.id);
+        }
+        default: {
+            // No state change for unknown actions
+            return todos;
+        }
+    }
+}
